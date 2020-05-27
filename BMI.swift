@@ -8,8 +8,16 @@
 
 import UIKit
 
+enum BMICategory {
+    case Underweight
+    case Normal
+    case Overweight
+    case Obese
+}
+
 struct BMI {
-    let value: Float
+    let value: Double
+    let category: BMICategory
     let advice: String
     let color: UIColor
 }
