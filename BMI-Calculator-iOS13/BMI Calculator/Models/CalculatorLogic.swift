@@ -13,7 +13,9 @@ struct CalculatorLogic {
     var bmi: BMI?
     
     mutating func calculateBMI(height: Float, weight: Float) {
-        let bmiVal = Double(round(weight)) / pow(Double(round(100*height)) / 100, 2)
+        let heightRounded = round(height * 100) / 100
+        let weightRounded = Int(weight)
+        let bmiVal = Double(weightRounded) / pow(Double(heightRounded), 2)
         bmi = getBMI(b: bmiVal)
     }
     
