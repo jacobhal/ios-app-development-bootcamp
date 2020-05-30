@@ -24,19 +24,20 @@ class CalculateViewController: UIViewController {
     }
 
     @IBAction func heightSliderChanged(_ sender: UISlider) {
-        let height = String(format: "%.2f", sender.value)
+        let heightConverted = calculatorLogic.convertHeightFormat(height: sender.value)
+        let height = String(format: "%.2f", heightConverted)
         heightLabel.text = "\(height)m"
         
     }
     
     @IBAction func weightSliderChanged(_ sender: UISlider) {
-        let weight = String(format: "%.0f", sender.value)
-        weightLabel.text = "\(weight)Kg"
+        let weightConverted = calculatorLogic.convertWeightFormat(weight: sender.value)
+        weightLabel.text = "\(weightConverted)Kg"
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
-        let height = heightSlider.value
-        let weight = weightSlider.value
+        let height = calculatorLogic.convertHeightFormat(height: heightSlider.value)
+        let weight = calculatorLogic.convertWeightFormat(weight: weightSlider.value)
         
         calculatorLogic.calculateBMI(height: height, weight: weight)
         

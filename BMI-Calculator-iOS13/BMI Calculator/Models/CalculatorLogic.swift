@@ -12,11 +12,17 @@ struct CalculatorLogic {
     
     var bmi: BMI?
     
-    mutating func calculateBMI(height: Float, weight: Float) {
-        let heightRounded = round(height * 100) / 100
-        let weightRounded = Int(weight)
-        let bmiVal = Double(weightRounded) / pow(Double(heightRounded), 2)
+    mutating func calculateBMI(height: Float, weight: Int) {
+        let bmiVal = Double(round((Float(weight) / pow(height, 2)) * 10) / 10)
         bmi = getBMI(b: bmiVal)
+    }
+    
+    func convertHeightFormat(height: Float) -> Float {
+        return floor(height * 100) / 100
+    }
+    
+    func convertWeightFormat(weight: Float) -> Int {
+        return Int(floor(weight))
     }
     
     func getBMIValue() -> String {
