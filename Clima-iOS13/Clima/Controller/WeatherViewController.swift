@@ -8,17 +8,49 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController {
+class WeatherViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
     
+    @IBOutlet weak var searchTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        searchTextField.delegate = self
+        
+        // Dismiss keyboard when clicking anywhere
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tap)
     }
 
-
+    @IBAction func searchPressed(_ sender: UIButton) {
+        searchTextField.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.endEditing(true)
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        // Get weather for city
+        
+        // Reset textfield
+        searchTextField.text =  ""
+        searchTextField.placeholder = "Search"
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        // Useful for validation
+        if textField.text != "" {
+            return true
+        }
+        
+        textField.placeholder = "Type something"
+        return false
+    }
+    
 }
 
