@@ -8,8 +8,7 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController, UITextFieldDelegate {
-
+class WeatherViewController: UIViewController, UITextFieldDelegate, WeatherManagerDelegate {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
@@ -22,6 +21,7 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         
         searchTextField.delegate = self
+        weatherManager.delegate = self
         
         // Dismiss keyboard when clicking anywhere
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing))
@@ -60,5 +60,19 @@ class WeatherViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    // omitting external parameter name but keeping internal for weatherManager
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
+        // Since networking tasks are made by a completion handler (WeatherManager.performRequest) in a separate thread to not freeze the UI, we need to go back to the main thread to update the UI
+        DispatchQueue.main.async {
+            // Need self because we are in a closure
+            self.conditionImageView.image = UIImage(systemName: weather.conditionName)
+            self.temperatureLabel.text = weather.temperatureString
+            self.cityLabel.text = weather.cityName
+        }
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
+    }
 }
 
