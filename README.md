@@ -40,7 +40,7 @@ When you click on something in your design, you will see the inspect pane on the
 The document outline on the left is the outline of the design of the storyboard. It works similar to a layer in design tools such as Photoshop or Skitch. It is easier to select elements in the outline rather than in the storyboard itself.
 
 #### Map of Xcode
-![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/images/map-of-xcode.pdf "Xcode map")
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/map-of-xcode.pdf"Xcode map")
 
 ### Adding an app icon
 
@@ -57,7 +57,7 @@ A protocol is sort of like an interface, allowing the
 ### Extensions
 You are able to extend types and classes in order to add functionality or build upon it after it has been created just like in any language. For example, you could create an extension for the Swift Double and add a method like this:  
 
-![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/images/double-extension.png "Double extension example")
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/double-extension.png "Double extension example")
 
 > You can also extend Protocols in order to provide a default implementation of certain methods
 
