@@ -40,7 +40,7 @@ When you click on something in your design, you will see the inspect pane on the
 The document outline on the left is the outline of the design of the storyboard. It works similar to a layer in design tools such as Photoshop or Skitch. It is easier to select elements in the outline rather than in the storyboard itself.
 
 #### Map of Xcode
-![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/map-of-xcode.pdf"Xcode map")
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/map-of-xcode.pdf "Xcode map")
 
 ### Adding an app icon
 
