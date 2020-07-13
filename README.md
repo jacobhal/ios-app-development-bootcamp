@@ -66,19 +66,82 @@ We have mainly three options to choose from:
 ### Linking design to code
 In order to link an element in your design to your code you should first open the Assistant Editor when you have your storyboard file chosen. Do so by clicking the horizontal lines in the top-right corner of the storyboard and select Assistant Editor.  
 
-To add a connection you can hold down **Control (^)** and drag to where you want to create your variable.
+> To add a connection you can hold down **Control (^)** and drag to where you want to create your variable.
 
-> If you rename a variable in your code and forget to refactor it properly you will get an error like "this class is not key value coding-compliant...". When you drag and create outlets the storyboard creates code in the background. In order to remove the old connection you can right click the element in the storyboard and delete the connection. You can re-link it to your new variable by dragging from the variable to your storyboard.
+If you rename a variable in your code and forget to refactor it properly you will get an error like "this class is not key value coding-compliant...". When you drag and create outlets the storyboard creates code in the background. 
+
+In order to remove the old connection you can right click the element in the storyboard and delete the connection. You can re-link it to your new variable by dragging from the variable to your storyboard.
 
 > NOTE: The best way to refactor a variable linked to the storyboard is to Control+click or right-click the variable and choose Refactor --> Rename
 
 ### Auto Layout and responsive UIs
+In order to make you design stay the same across devices we need auto layout. We need to set constraints for elements to the borders of the screen and each other, so they stay the same no matter if you have an iPhone 6s (6, 7, 8 have the same size) or an iPhone 11 etc.
 
 #### Size classes
+Size classes is what device Xcode currently uses to render your storyboard. Each size class represents a group of devices that have the same screen size. To change size class to another iOS device, click the menu below the storyboard and choose a different device to "View as".
 
 #### Constraints
+Constraints are a set of rules for your image view. Add constraints by clicking the constraints icon and modifying the values to what you want. You can use the dropdowns to choose which elements you want to relate the constraint to.
+
+**Add constraints by clicking this small icon and then making sure the lines are red**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/constraints.png "Constraints")
+
+We can then inspect the constraints by choosing a specific constraint in the outline and see the relation and relationship of the constraint on the right.
+
+**Inspect contraint relation**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/constraints-relation.png "Constraints relation")
+
+##### Safe area
+The safe area is a small area that incorporates some padding on the sides and the top/bottom of the screen. The top safe area typically contains things like battery information, signal information and the bottom safe area contains the home button (at least on the iPhone XR). 
+
+> If we are creating an app that has buttons on it, then we don't want it to be in the safe areas which is why we add constraints in relation to the safe area.
+
+> If our view does not have buttons on it, such as the launchscreen storyboard typically, then we want to set the constraints to the Superview instead (the View at the base of our View Controller).
+
+##### Alignment
+Alignment is a way to align elements to commonly used loc ations, such as center, bottom, right or left.
+Constraints will not work well in this case because of how it will look in landscape mode.
+We can use alignment by clicking the alignment icon and adding alignment constraints.
+
+**Adding alignment constraints**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/alignment-constraints.png "Alignment")
+
+> The phone works out the size of the screen it is being rendered on and places the elements where we want to by looking at our alignment constraints.
+
+##### Combining alignment and constraints
+By combining alignment and constraints, we can say thing like "our button should be horizontally contered and always 30pt from the bottom of the safe area".
 
 ### Stack views
+Use a stack view to place items along a column, either horizontally or vertically.
+
+**Creating a stack view**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/stack-view.png "Stack view creation example")
+
+### Segues and Navigation for Multi-Screen Apps
+#### Create a new controller for a screen
+Here is how to create a new Controller and connect it to a screen.
+1. Add new file (Cocoa Touch Class)
+2. Choose the View Controller in the storyboard (either in the outline or in the top of the screen)
+3. Go to the identity inspector and change the Class to the class you created in step 1.
+
+> The connection might be a bit slow in Xcode after creating the link
+
+#### Segues
+Segues allow you to go between different screens.  
+Hold down Control (^) and drag from the first ViewController to the second. You can choose different animated ways to transition to the next screen (modally, detail etc.).  
+Remember to add an Identifier in the Identity inspector so we can identify the Segue in our code.
+
+In the prepare() method of the first ViewController you can check the if the identity of the segue is the one you want and relay it to the correct screen by setting `segue.destination = NewViewController!`.
+
+When the user is passed to a new screen in iOS, then the screen is just placed on top of the last one. You can use a feature to see this when your App is running:
+
+**Screen visualization**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/screen-visualization.png "Visualization example")
+
+> We can go back to the previous screen by using the self.dismiss() method
+
+> See **BMI-Calculator** for a full implemenation of multiple screens and segues.
+
 
 ## Swift basics
 
@@ -86,10 +149,73 @@ To add a connection you can hold down **Control (^)** and drag to where you want
 Constants are declared using the **let** keyword.  
 Variables are declared using the **var** keyword.
 
+### Dictionaries
+A dictionary is exactly like a dictionary in Python, or a hashmap in other programming languages.
+
+**How to create a dictionary**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/dictionary.png "Dictionary example")
+
 ### Protocols
 A protocol is sort of like an interface, allowing a class to adopt a template for what functions it should have.
 
+### Structs vs Classes
+**Structs**
+* Structs do NOT have inheritance, but classes do
+* Structs are immutable, which means that every change you make to the struct involes destroying the old copy and creating a new one.
+* Structs are passed by value
+
+**Classes**
+* Classes are passed by reference, meaning we can have multiple instances which points to the same object
+* Classes have to ability to inherit from other classes
+
+### Optional binding, chaining and the Nil coalescing operator
+An optional is a variable that might have a variable or it might not.  
+There are different ways to handle such values.
+
+**Force unwrapping**
+By adding an exclamation mark we are force unwrapping the value, which means we trust it to be there and if it isn't an exception will be thrown.
+```Swift
+optional!
+```
+
+**Check for a nil value**
+```Swift
+{
+  if optional != nil {
+      optional!
+  }
+}
+```
+
+**Optional binding**
+Bind the value of the optional if it is not nil.
+```Swift
+{
+  if let safeOptional = optional {
+      safeOptional
+  }
+}
+```
+
+**Nil coalescing operator**
+```Swift
+{
+  optional ?? defaultValue
+}
+```
+
+**Optional chaining**
+Access properties for an optional by using optional chaining. If the optional is not nil, access the property.
+```Swift
+{
+  let myOptional: MyOptional?
+  myOptional = nil
+  myOptional?.property
+}
+```
+
 ### Closures
+Closures are anonymous functions, similar to lambda functions.
 
 ### Extensions
 You are able to extend types and classes in order to add functionality or build upon it after it has been created just like in any language. For example, you could create an extension for the Swift Double and add a method like this:  
@@ -98,12 +224,40 @@ You are able to extend types and classes in order to add functionality or build 
 
 > You can also extend Protocols in order to provide a default implementation of certain methods
 
-Extensions can also be really handy for organizing code. If we are adopting a lot of different protocols for a class, we can break them up into different extensions to make the code cleaner (see project **Clima-iOS13**).
+Extensions can also be really handy for organizing code. If we are adopting a lot of different protocols for a class, we can break them up into different extensions to make the code cleaner (see project **Clima**).
 
 ### MVC pattern
+The MVC (Model-View-Controller) patterns is very common for structuring anything from native apps to web projects. This is one of the most fundamental patterns that Apple themselves choose to use. In Xcode, you can create something called groups which will group your files together in the project tree beneath a folder which we can use to create our Model, View and Controller folders. Just right-click the files you want to add to a group and choose *New group from selection*.
+
+We split our project in Models, Views and Controllers. 
+* M = Model = Data & Logic
+* V = View = User interface
+* C = Controller = Mediator
+
+**MVC diagram**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/MVC-example.png "MVC example")
+
+**Popular design patterns**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/design-patterns.png "Design patterns")
+
+> A design pattern is an architectural blueprint and you might choose different ones depending on the requirements
 
 ### Delegate pattern
 Apple likes to use this pattern a lot.
+
+**Delegate pattern example**
+![Image not found](https://github.com/jacobhal/ios-app-development-bootcamp/blob/master/images/delegate-pattern.png "Delegate pattern example")
+
+* In the WeatherViewController we have a reference to a UITextField.  
+* We then set the delegate property to the WeatherViewController, which means that whenever the UITextField calls its delegate method textFieldDidBeginEditing(), the WeatherViewController will be notified.  
+* The reason we can do this is because the WeatherViewController adopts the UITextFieldDelegate protocol.
+
+Now we are able to switch out the WeatherViewController for any other class and it will still work!
+
+> See the **Clima** project for an implementation of this protocol.
+
+## SwiftUI
+TODO
 
 ## Project references
 This section contains the various projects for this course and the key takeaways from each of them.
@@ -117,11 +271,14 @@ Basic app design (app icons, images)
 ### Dicee
 Randomization, button outlets
 
+### Xylophone
+Playing sounds with AVAudioPlayer
+
 ### AutoLayout
 Autolayout (constraints, size classes)
 
 ### EggTimer
-Timers
+Timers, AVAudioPlayer
 
 ### Quizzler
 MVC design pattern
@@ -130,7 +287,7 @@ MVC design pattern
 MVC design pattern
 
 ### BMI Calculator
-UISliders, calculations
+UISliders, calculations, segues and multi-screen apps, color literals
 
 ### Clima
 Delegate pattern, Networking, JSON, APIs
