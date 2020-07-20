@@ -1,5 +1,7 @@
 # iOS 13 &amp; Swift 5 - The Complete iOS App Development Bootcamp
+
 A repository for all the code written during this Udemy course. This README also contains knowledge gained in general and during each project.
+
 Table of Contents
 =================
 
